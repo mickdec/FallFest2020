@@ -22,7 +22,6 @@ public class CursedSpawnerBlock extends Block implements BlockEntityProvider {
         this.setDefaultState(this.getStateManager().getDefaultState().with(ACTIVE, false));
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (hand == Hand.OFF_HAND) return ActionResult.CONSUME;
@@ -48,7 +47,6 @@ public class CursedSpawnerBlock extends Block implements BlockEntityProvider {
         super.onBreak(world, pos, state, player);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (!state.isOf(newState.getBlock())) {
