@@ -80,7 +80,6 @@ public class CursedSpawnerBlockEntity extends BlockEntity implements Tickable, B
 
     private void createController(PlayerEntity player) {
         SpawnerProfileManager.SpawnerProfile profile = SpawnerProfileManager.getProfiles().get(this.spawnerProfile);
-//        FallFest.LOGGER.info(profile);
         if (profile == null) {
             if (player != null)
                 player.sendMessage(new LiteralText("No profile found: " + spawnerProfile), false);
@@ -117,6 +116,11 @@ public class CursedSpawnerBlockEntity extends BlockEntity implements Tickable, B
         this.controller = null;
         markDirty();
         sync();
+    }
+
+    public void spawnerFailed() {
+        if (this.controller != null)
+            this.controller.endSpawner();
     }
 
     public Optional<CursedSpawnerController> getController() {

@@ -3,6 +3,7 @@ package me.geek.tom.fallfest;
 import me.geek.tom.fallfest.block.spawner.CursedSpawnerBlockEntity;
 import me.geek.tom.fallfest.component.ModComponents;
 import me.geek.tom.fallfest.component.SpawnerMobComponent;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
@@ -32,6 +33,24 @@ public class Utils {
             BlockEntity be = world.getBlockEntity(component.getSpawnerPos());
             if (be instanceof CursedSpawnerBlockEntity) {
                 ((CursedSpawnerBlockEntity) be).onEntityDie(e);
+            }
+            component.setHasSpawner(false);
+            component.setPos(null);
+        }
+    }
+
+    public static void handlePlayerDeath(World world, PlayerEntity e) {
+        if (world.isClient()) return;
+        
+        FallFest.LOGGER.info("Player death : " + e);
+
+        SpawnerMobComponent component = ModComponents.SPAWNER_MOB.get(e);
+        FallFest.LOGGER.info("Component : " + component);
+
+        if (component.hasSpawner()) {
+            BlockEntity be = world.getBlockEntity(component.getSpawnerPos());
+            if (be instanceof CursedSpawnerBlockEntity) {
+                ((CursedSpawnerBlockEntity) be).spawnerFailed();
             }
             component.setHasSpawner(false);
             component.setPos(null);

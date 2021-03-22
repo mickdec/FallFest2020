@@ -85,6 +85,8 @@ public class CursedSpawnerController {
         if (player != null)
             bar.addPlayer(((ServerPlayerEntity) player));
         this.sendEffect(0, this.spawnerPos);
+        
+        ModComponents.SPAWNER_MOB.sync(player);
     }
 
     public void tick() {
@@ -341,7 +343,7 @@ public class CursedSpawnerController {
         }
     }
 
-    private void endSpawner() {
+    public void endSpawner() {
         World world = getWorld();
         assert world != null;
 

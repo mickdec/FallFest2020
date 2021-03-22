@@ -5,7 +5,8 @@
   "mixins": [
     "MinecraftServerMixin",
     "StructuresConfigAccessor",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "PlayerEntityMixin"
   ],
   "client": [],
   "server": [],
