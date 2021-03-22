@@ -1,5 +1,7 @@
 package me.geek.tom.fallfest.block.spawner;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import io.netty.buffer.Unpooled;
@@ -238,7 +240,6 @@ public class CursedSpawnerController {
         for (int x = spawnerPos.getX() - SPAWN_RADIUS; x <= spawnerPos.getX() + SPAWN_RADIUS; x++) {
             for (int y = spawnerPos.getY(); y < spawnerPos.getY() + 3; y++) {
                 for (int z = spawnerPos.getZ() - SPAWN_RADIUS; z <= spawnerPos.getZ() + SPAWN_RADIUS; z++) {
-
                     BlockPos pos = new BlockPos(x, y, z);
                     EntityType<?> entityType = Utils.choice(rand, spawnerWave.getEntities());
                     if (canSpawnEntity(entityType, world, pos)) {
@@ -348,7 +349,27 @@ public class CursedSpawnerController {
         assert world != null;
 
         BlockEntity be = world.getBlockEntity(this.spawnerPos);
-        this.dropStack(new ItemStack(profile.getReward(), 1));
+
+        //Random loot.
+        //this.dropStack(new ItemStack(profile.getReward(), 1));
+        for (int i = 0; i <= 5; i++) {
+            Random rand = new Random();
+            this.dropStack(new ItemStack(Registry.ITEM.getRandom(rand), rand.nextInt(20)+1));
+        }
+
+        world.setBlockState(this.spawnerPos, world.getBlockState(this.spawnerPos).with(CursedSpawnerBlock.ACTIVE, false));
+        this.bar.clearPlayers();
+        if (be instanceof CursedSpawnerBlockEntity) {
+            ((CursedSpawnerBlockEntity) be).spawnerComplete();
+        }
+        sendEffect(3, this.spawnerPos);
+    }
+
+    public void endSpawnerFailed() {
+        World world = getWorld();
+        assert world != null;
+
+        BlockEntity be = world.getBlockEntity(this.spawnerPos);
 
         world.setBlockState(this.spawnerPos, world.getBlockState(this.spawnerPos).with(CursedSpawnerBlock.ACTIVE, false));
         this.bar.clearPlayers();
@@ -360,7 +381,6 @@ public class CursedSpawnerController {
 
     private void dropStack(ItemStack stack) {
         ItemEntity itemEntity = new ItemEntity(
-                // offset by one on the y to spawn the drops above
                 this.world, this.spawnerPos.getX(), this.spawnerPos.getY() + 1, this.spawnerPos.getZ(), stack);
         itemEntity.setToDefaultPickupDelay();
         this.world.spawnEntity(itemEntity);

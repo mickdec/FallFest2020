@@ -120,7 +120,7 @@ public class CursedSpawnerBlockEntity extends BlockEntity implements Tickable, B
 
     public void spawnerFailed() {
         if (this.controller != null)
-            this.controller.endSpawner();
+            this.controller.endSpawnerFailed();
     }
 
     public Optional<CursedSpawnerController> getController() {

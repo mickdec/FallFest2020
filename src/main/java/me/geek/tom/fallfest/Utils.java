@@ -20,11 +20,6 @@ public class Utils {
         return min + random.nextInt(max - min);
     }
 
-//    private static int inRange(Random rand, int min, int max) {
-//        int diff = max - min;
-//        return (rand.nextInt(diff * 2) - diff);
-//    }
-
     public static void handleEntityDeath(World world, LivingEntity e) {
         if (world.isClient()) return;
 

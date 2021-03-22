@@ -35,8 +35,7 @@
   },
   "custom": {
     "cardinal-components": [
-      "ttg_fallfest:spawner_mob",
-      "ttg_fallfest:spawner_player"
+      "ttg_fallfest:spawner_mob"
     ]
   }
 }
