@@ -138,9 +138,32 @@ public class SpawnerProfileManager extends JsonDataLoader implements Identifiabl
             private final int maxMobCount;
 
             public SpawnerWave(List<EntityType<?>> entities, int minMobCount, int maxMobCount) {
+                //Random mob nb
+                List<EntityType<?>> hostiles = new ArrayList<EntityType<?>>();
+                hostiles.add(EntityType.BLAZE);
+                hostiles.add(EntityType.CAVE_SPIDER);
+                hostiles.add(EntityType.EVOKER);
+                hostiles.add(EntityType.DROWNED);
+                hostiles.add(EntityType.HOGLIN);
+                hostiles.add(EntityType.HUSK);
+                hostiles.add(EntityType.MAGMA_CUBE);
+                hostiles.add(EntityType.PIGLIN_BRUTE);
+                hostiles.add(EntityType.PILLAGER);
+                hostiles.add(EntityType.RAVAGER);
+                hostiles.add(EntityType.ZOMBIE);
+                hostiles.add(EntityType.WITCH);
+                hostiles.add(EntityType.SPIDER);
+                hostiles.add(EntityType.SKELETON);
+                hostiles.add(EntityType.SILVERFISH);
+
+                Random rand = new Random();
+                entities = new ArrayList<EntityType<?>>();
+                for(int i = 0; i < 3; i++){
+                    entities.add(hostiles.get(rand.nextInt(hostiles.size())));
+                }
                 this.entities = entities;
-                this.minMobCount = minMobCount;
-                this.maxMobCount = maxMobCount;
+                this.minMobCount = rand.nextInt(minMobCount)+1;
+                this.maxMobCount = rand.nextInt(this.minMobCount)+8;
             }
 
             public List<EntityType<?>> getEntities() {

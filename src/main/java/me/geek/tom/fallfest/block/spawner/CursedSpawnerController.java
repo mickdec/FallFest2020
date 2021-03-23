@@ -354,7 +354,7 @@ public class CursedSpawnerController {
         //this.dropStack(new ItemStack(profile.getReward(), 1));
         for (int i = 0; i <= 5; i++) {
             Random rand = new Random();
-            this.dropStack(new ItemStack(Registry.ITEM.getRandom(rand), rand.nextInt(20)+1));
+            this.dropStack(new ItemStack(Registry.ITEM.getRandom(rand), rand.nextInt(profile.getWaves().size())+1));
         }
 
         world.setBlockState(this.spawnerPos, world.getBlockState(this.spawnerPos).with(CursedSpawnerBlock.ACTIVE, false));
