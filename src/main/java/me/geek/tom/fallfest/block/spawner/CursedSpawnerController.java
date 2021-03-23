@@ -352,7 +352,7 @@ public class CursedSpawnerController {
 
         //Random loot.
         //this.dropStack(new ItemStack(profile.getReward(), 1));
-        for (int i = 0; i <= 5; i++) {
+        for (int i = 0; i <= profile.getWaves().size(); i++) {
             Random rand = new Random();
             this.dropStack(new ItemStack(Registry.ITEM.getRandom(rand), rand.nextInt(profile.getWaves().size())+1));
         }

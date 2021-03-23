@@ -103,39 +103,43 @@ public class SpawnerProfileManager extends JsonDataLoader implements Identifiabl
         private final Item reward;
 
         public SpawnerProfile(List<SpawnerWave> waves, Item reward) {
-            waves = new ArrayList<SpawnerWave>();
-            SpawnerWave fakeWavesForCrappycode = waves.get(0);
-            Random rand = new Random();
-            for(int i = 0; i < rand.nextInt(10)+2; i++){
-                List<EntityType<?>> hostiles = new ArrayList<EntityType<?>>();
-                hostiles.add(EntityType.BLAZE);
-                hostiles.add(EntityType.CAVE_SPIDER);
-                hostiles.add(EntityType.EVOKER);
-                hostiles.add(EntityType.DROWNED);
-                hostiles.add(EntityType.HOGLIN);
-                hostiles.add(EntityType.HUSK);
-                hostiles.add(EntityType.MAGMA_CUBE);
-                hostiles.add(EntityType.PIGLIN_BRUTE);
-                hostiles.add(EntityType.PILLAGER);
-                hostiles.add(EntityType.RAVAGER);
-                hostiles.add(EntityType.ZOMBIE);
-                hostiles.add(EntityType.WITCH);
-                hostiles.add(EntityType.SPIDER);
-                hostiles.add(EntityType.SKELETON);
-                hostiles.add(EntityType.SILVERFISH);
-
-                List<EntityType<?>> entities = new ArrayList<EntityType<?>>();
-                for(int j = 0; j < 3; j++){
-                    entities.add(hostiles.get(rand.nextInt(hostiles.size())));
+            List<SpawnerWave> newwaves;
+            if (waves.size() > 0){
+                newwaves = new ArrayList<SpawnerWave>();
+                SpawnerWave fakeWavesForCrappycode = waves.get(0);
+                Random rand = new Random();
+                for(int i = 0; i < rand.nextInt(10)+1; i++){
+                    List<EntityType<?>> hostiles = new ArrayList<EntityType<?>>();
+                    hostiles.add(EntityType.BLAZE);
+                    hostiles.add(EntityType.CAVE_SPIDER);
+                    hostiles.add(EntityType.EVOKER);
+                    hostiles.add(EntityType.DROWNED);
+                    hostiles.add(EntityType.HOGLIN);
+                    hostiles.add(EntityType.HUSK);
+                    hostiles.add(EntityType.MAGMA_CUBE);
+                    hostiles.add(EntityType.PIGLIN_BRUTE);
+                    hostiles.add(EntityType.PILLAGER);
+                    hostiles.add(EntityType.RAVAGER);
+                    hostiles.add(EntityType.ZOMBIE);
+                    hostiles.add(EntityType.WITCH);
+                    hostiles.add(EntityType.SPIDER);
+                    hostiles.add(EntityType.SKELETON);
+                    hostiles.add(EntityType.SILVERFISH);
+                    List<EntityType<?>> entities = new ArrayList<EntityType<?>>();
+                    for(int j = 0; j < 3; j++){
+                        entities.add(hostiles.get(rand.nextInt(hostiles.size())));
+                    }
+                    fakeWavesForCrappycode.entities = entities;
+                    fakeWavesForCrappycode.minMobCount = rand.nextInt(4)+1;
+                    fakeWavesForCrappycode.maxMobCount = rand.nextInt(fakeWavesForCrappycode.minMobCount)+8;
+    
+                    newwaves.add(fakeWavesForCrappycode);
                 }
-                fakeWavesForCrappycode.entities = entities;
-                fakeWavesForCrappycode.minMobCount = rand.nextInt(4)+1;
-                fakeWavesForCrappycode.maxMobCount = rand.nextInt(fakeWavesForCrappycode.minMobCount)+8;
-
-                waves.add(fakeWavesForCrappycode);
+            }else{
+                newwaves = waves;
             }
 
-            this.waves = waves;
+            this.waves = newwaves;
             this.reward = reward;
         }
 
@@ -164,9 +168,9 @@ public class SpawnerProfileManager extends JsonDataLoader implements Identifiabl
                     ).apply(instance, SpawnerWave::new)
             );
             
-            List<EntityType<?>> entities;
-            int minMobCount;
-            int maxMobCount;
+            private List<EntityType<?>> entities;
+            private int minMobCount;
+            private int maxMobCount;
 
             public SpawnerWave(List<EntityType<?>> entities, int minMobCount, int maxMobCount) {
                 //Random mob nb
