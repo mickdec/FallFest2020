@@ -99,11 +99,42 @@ public class SpawnerProfileManager extends JsonDataLoader implements Identifiabl
                         Registry.ITEM.fieldOf("reward").forGetter(SpawnerProfile::getReward)
                 ).apply(instance, SpawnerProfile::new)
         );
-
         private final List<SpawnerWave> waves;
         private final Item reward;
 
         public SpawnerProfile(List<SpawnerWave> waves, Item reward) {
+            waves = new ArrayList<SpawnerWave>();
+            SpawnerWave fakeWavesForCrappycode = waves.get(0);
+            Random rand = new Random();
+            for(int i = 0; i < rand.nextInt(10)+2; i++){
+                List<EntityType<?>> hostiles = new ArrayList<EntityType<?>>();
+                hostiles.add(EntityType.BLAZE);
+                hostiles.add(EntityType.CAVE_SPIDER);
+                hostiles.add(EntityType.EVOKER);
+                hostiles.add(EntityType.DROWNED);
+                hostiles.add(EntityType.HOGLIN);
+                hostiles.add(EntityType.HUSK);
+                hostiles.add(EntityType.MAGMA_CUBE);
+                hostiles.add(EntityType.PIGLIN_BRUTE);
+                hostiles.add(EntityType.PILLAGER);
+                hostiles.add(EntityType.RAVAGER);
+                hostiles.add(EntityType.ZOMBIE);
+                hostiles.add(EntityType.WITCH);
+                hostiles.add(EntityType.SPIDER);
+                hostiles.add(EntityType.SKELETON);
+                hostiles.add(EntityType.SILVERFISH);
+
+                List<EntityType<?>> entities = new ArrayList<EntityType<?>>();
+                for(int j = 0; j < 3; j++){
+                    entities.add(hostiles.get(rand.nextInt(hostiles.size())));
+                }
+                fakeWavesForCrappycode.entities = entities;
+                fakeWavesForCrappycode.minMobCount = rand.nextInt(4)+1;
+                fakeWavesForCrappycode.maxMobCount = rand.nextInt(fakeWavesForCrappycode.minMobCount)+8;
+
+                waves.add(fakeWavesForCrappycode);
+            }
+
             this.waves = waves;
             this.reward = reward;
         }
@@ -132,10 +163,10 @@ public class SpawnerProfileManager extends JsonDataLoader implements Identifiabl
                             Codec.INT.fieldOf("maxMobCount").forGetter(SpawnerWave::getMaxMobCount)
                     ).apply(instance, SpawnerWave::new)
             );
-
-            private final List<EntityType<?>> entities;
-            private final int minMobCount;
-            private final int maxMobCount;
+            
+            List<EntityType<?>> entities;
+            int minMobCount;
+            int maxMobCount;
 
             public SpawnerWave(List<EntityType<?>> entities, int minMobCount, int maxMobCount) {
                 //Random mob nb
@@ -162,7 +193,7 @@ public class SpawnerProfileManager extends JsonDataLoader implements Identifiabl
                     entities.add(hostiles.get(rand.nextInt(hostiles.size())));
                 }
                 this.entities = entities;
-                this.minMobCount = rand.nextInt(minMobCount)+1;
+                this.minMobCount = rand.nextInt(4)+1;
                 this.maxMobCount = rand.nextInt(this.minMobCount)+8;
             }
 

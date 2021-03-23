@@ -32,7 +32,7 @@ public class CursedSpawnerBlock extends Block implements BlockEntityProvider {
         if (hand == Hand.OFF_HAND) return ActionResult.CONSUME;
         if (state.get(ACTIVE)){
             ((CursedSpawnerBlockEntity) be).spawnerFailed();
-            return ActionResult.PASS;
+            return ActionResult.CONSUME;
         }
 
         if (be instanceof CursedSpawnerBlockEntity) {
