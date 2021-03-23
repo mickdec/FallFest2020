@@ -24,13 +24,17 @@ public class CursedSpawnerBlock extends Block implements BlockEntityProvider {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (hand == Hand.OFF_HAND) return ActionResult.CONSUME;
-        if (state.get(ACTIVE)) return ActionResult.CONSUME;
-
         if (world.isClient()) return ActionResult.CONSUME;
 
         world.setBlockState(pos, state.with(ACTIVE, true));
         BlockEntity be = world.getBlockEntity(pos);
+
+        if (hand == Hand.OFF_HAND) return ActionResult.CONSUME;
+        if (state.get(ACTIVE)){
+            ((CursedSpawnerBlockEntity) be).spawnerFailed();
+            return ActionResult.PASS;
+        }
+
         if (be instanceof CursedSpawnerBlockEntity) {
             return ((CursedSpawnerBlockEntity) be).onUse(state, world, pos, player, hand, hit);
         }
